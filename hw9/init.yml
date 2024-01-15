@@ -1,0 +1,25 @@
+---
+- name: Create user and install packages
+  hosts: server
+  become: true
+
+  tasks:
+    - name: Create user hillel with sudo privileges
+      user:
+        name: hillel
+        groups: sudo
+
+    - name: Install required packages (NGINX, git, zip)
+      apt:
+        name:
+          - nginx
+          - git
+          - zip
+        update_cache: true
+        state: present
+
+    - name: Ensure NGINX service is running and enabled
+      service:
+        name: nginx
+        state: started
+        enabled: yes
