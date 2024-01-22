@@ -37,3 +37,5 @@ terraform.rc
 
 # Ignore maven generated files for java application
 **/target
+
+*iml
