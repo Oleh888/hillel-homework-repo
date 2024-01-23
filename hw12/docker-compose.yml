@@ -3,7 +3,7 @@ services:
   application:
     image: docker-demo-app:0.0.1
     build:
-      context: ../hw10
+      context: ../hw11
       dockerfile: Dockerfile
     ports:
       - 8080:8080
