@@ -15,7 +15,7 @@ jobs:
 
       - name: Get project version from pom.xml
         id: get_version
-        run: echo "::set-output name=version::$(grep -oP '<version>\K[^<]+' hw11/application/pom.xml)"
+        run: echo "::save-state name=version::$(grep -oP '<version>\K[^<]+' hw11/application/pom.xml)"
 
       - name: Build Docker Image
         run: |
