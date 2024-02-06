@@ -17,14 +17,14 @@ jobs:
         id: get_version
         run: |
           version=$(grep -oP '<version>\K[^<]+' hw11/application/pom.xml)
-          echo "APP_VERSION=${version}" >> "$GITHUB_OUTPUT"
+          echo "APP_VERSION=${version}" >> $GITHUB_ENV
 
       - name: Build Docker Image
         run: |
           cd hw11
-          docker build -t oleh888/docker-demo-app:${{ steps.get_version.outputs.APP_VERSION }}  .
+          docker build -t oleh888/docker-demo-app:${{ env.APP_VERSION }}  .
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-          docker push oleh888/docker-demo-app:${{ steps.get_version.outputs.APP_VERSION }}
+          docker push oleh888/docker-demo-app:${{ env.APP_VERSION }}
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
