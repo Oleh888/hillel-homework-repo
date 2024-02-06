@@ -15,7 +15,9 @@ jobs:
 
       - name: Get project version from pom.xml
         id: get_version
-        run: echo "APP_VERSION=$(grep -oP '<version>\K[^<]+' hw11/application/pom.xml)" >> "$GITHUB_OUTPUT"
+        run: |
+          version=$(grep -oP '<version>\K[^<]+' hw11/application/pom.xml)
+          echo "APP_VERSION=${version}" >> "$GITHUB_OUTPUT"
 
       - name: Build Docker Image
         run: |
