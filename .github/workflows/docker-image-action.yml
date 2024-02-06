@@ -13,12 +13,16 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Get project version from pom.xml
+        id: get_version
+        run: echo "::set-output name=version::$(xmlstarlet sel -t -v '//project/version' hw11/application/pom.xml)"
+
       - name: Build Docker Image
         run: |
           cd hw11
-          docker build -t oleh888/docker-demo-app:latest .
+          docker build -t oleh888/docker-demo-app:${{ steps.get_version.outputs.version }}  .
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-          docker push oleh888/docker-demo-app:latest
+          docker push oleh888/docker-demo-app:${{ steps.get_version.outputs.version }}
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
