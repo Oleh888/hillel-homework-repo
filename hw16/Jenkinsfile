@@ -8,21 +8,13 @@ pipeline {
     }
 
     stages {
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/Oleh888/hillel-homework-repo'
-            }
-        }
-
         stage('Build and Push Docker Image') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDENTIALS_ID', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        dir('hillel-homework-repo/hw11') {
-                            sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
-                            sh "docker build -t oleh888/demo-app:${env.BRANCH_NAME} ."
-                            sh "docker push oleh888/demo-app:${env.BRANCH_NAME}"
-                        }
+                        sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                        sh "docker build -t oleh888/demo-app:${env.BRANCH_NAME} hw11"
+                        sh 'docker push oleh888/demo-app:${env.BRANCH_NAME}'
                     }
                 }
             }
