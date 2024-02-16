@@ -11,8 +11,6 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 script {
-                    sh 'echo Building on branch: ${env.BRANCH_NAME}'
-
                     withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDENTIALS_ID', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
                         sh 'docker build -t oleh888/demo-app:${env.BRANCH_NAME} .'
