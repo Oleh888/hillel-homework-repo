@@ -1,5 +1,7 @@
 pipeline {
-    agent 'docker-worker-node'
+    agent {
+        label 'docker-worker-node'
+    }
 
     triggers {
         pollSCM('*/5 * * * *')
