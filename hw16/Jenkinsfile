@@ -12,9 +12,9 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDENTIALS_ID', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
-                        sh "docker build -t oleh888/demo-app:${env.BRANCH_NAME} hw11"
-                        sh "docker push oleh888/demo-app:${env.BRANCH_NAME}"
+                        sh "sudo docker build -t oleh888/demo-app:${env.BRANCH_NAME} hw11"
+                        sh 'echo $DOCKER_PASSWORD | sudo docker login -u $DOCKER_USERNAME --password-stdin'
+                        sh "sudo docker push oleh888/demo-app:${env.BRANCH_NAME}"
                     }
                 }
             }
