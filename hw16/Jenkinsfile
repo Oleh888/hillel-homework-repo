@@ -18,7 +18,7 @@ pipeline {
                     def dockerImageTag = "${GIT_BRANCH}".replaceAll("/", "-")
 
                     withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDENTIALS_ID', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh "docker build -t oleh888/demo-app:${dockerImageTag} hw11"
+                        sh "dockers build -t oleh888/demo-app:${dockerImageTag} hw11"
                         sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
                         sh "docker push oleh888/demo-app:${dockerImageTag}"
                     }
