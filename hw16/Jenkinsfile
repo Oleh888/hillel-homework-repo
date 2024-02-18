@@ -22,4 +22,48 @@ pipeline {
             }
         }
     }
+
+    post {
+        success {
+            script {
+                currentBuild.result = 'SUCCESS'
+                updateGitHubCommitStatus("success")
+            }
+        }
+        failure {
+            script {
+                currentBuild.result = 'FAILURE'
+                updateGitHubCommitStatus("failure")
+            }
+        }
+    }
+}
+
+def updateGitHubCommitStatus(String status) {
+    def commitSha = env.GIT_COMMIT
+    def authHeader = "Bearer ${GITHUB_ACCESS_TOKEN}"
+
+    def url = "https://api.github.com/repos/Oleh888/hillel-homework-repo/statuses/${commitSha}"
+    def payload = """
+    {
+        "state": "${status}",
+        "target_url": "${env.BUILD_URL}",
+        "description": "Jenkins CI build ${status}",
+        "context": "Jenkins CI"
+    }
+    """
+
+    def response = httpRequest(
+            acceptType: 'APPLICATION_JSON',
+            contentType: 'APPLICATION_JSON',
+            httpMode: 'POST',
+            requestBody: payload,
+            url: url,
+            customHeaders: [
+                    Authorization: authHeader
+            ]
+    )
+
+    println("GitHub response status: ${response.status}")
+
 }
