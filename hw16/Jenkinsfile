@@ -3,6 +3,10 @@ pipeline {
         label 'docker-worker-node'
     }
 
+    environment {
+        GITHUB_ACCESS_TOKEN     = credentials('github-access-key')
+    }
+
     triggers {
         pollSCM('*/5 * * * *')
     }
