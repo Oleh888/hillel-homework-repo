@@ -20,6 +20,7 @@ services:
       apt-get install -y \
       openjdk-17-jdk \
       git \
+      curl \
       docker.io \
       openssh-server && \
       mkdir -p /var/run/sshd && \
