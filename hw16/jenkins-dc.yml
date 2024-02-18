@@ -1,12 +1,26 @@
-version: '3.8'
+version: '3'
 services:
-  jenkins:
+  jenkins-master:
     image: jenkins/jenkins:lts
-    privileged: true
-    user: root
     ports:
-      - 8080:8080
-      - 50000:50000
-    container_name: jenkins
+      - "8080:8080"
+      - "50000:50000"
     volumes:
+      - ./jenkins_vol:/var/jenkins_home
+
+  worker-node:
+    image: ubuntu:latest
+    volumes:
+      - ./worker_vol:/home/jenkins
+      - ./worker_vol/worker_node_key.pub:/root/.ssh/authorized_keys
       - /var/run/docker.sock:/var/run/docker.sock
+    command: >
+      /bin/bash -c "\
+      apt-get update && \
+      apt-get install -y \
+      openjdk-17-jdk \
+      git \
+      docker.io \
+      openssh-server && \
+      mkdir -p /var/run/sshd && \
+      /usr/sbin/sshd -D"

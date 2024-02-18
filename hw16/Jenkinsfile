@@ -11,10 +11,12 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 script {
+                    def dockerImageTag = "${GIT_BRANCH}".replaceAll("/", "-")
+
                     withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDENTIALS_ID', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh "sudo docker build -t oleh888/demo-app:${env.BRANCH_NAME} hw11"
-                        sh 'echo $DOCKER_PASSWORD | sudo docker login -u $DOCKER_USERNAME --password-stdin'
-                        sh "sudo docker push oleh888/demo-app:${env.BRANCH_NAME}"
+                        sh "docker build -t oleh888/demo-app:${dockerImageTag} hw11"
+                        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                        sh "docker push oleh888/demo-app:${dockerImageTag}"
                     }
                 }
             }
