@@ -11,7 +11,7 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 script {
-                    def dockerImageTag = "${GIT_BRANCH}".replaceAll("/", "-")
+                    def dockerImageTag = "${GIT_BRANCH}".replaceAll("^.+?/", "")
 
                     withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDENTIALS_ID', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh "docker build -t oleh888/demo-app:${dockerImageTag} hw11"
