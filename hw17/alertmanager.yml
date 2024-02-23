@@ -1,0 +1,11 @@
+route:
+  group_by: ['cpu']
+  group_wait: 10s
+  group_interval: 1m
+  repeat_interval: 1h
+  receiver: 'telegram-webhook'
+
+receivers:
+  - name: 'telegram-webhook'
+    webhook_configs:
+      - url: "https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage?chat_id=${TG_BOT_CHAT_ID}&text=High CPU usage detected"
