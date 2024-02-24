@@ -8,4 +8,5 @@ route:
 receivers:
   - name: 'telegram-webhook'
     webhook_configs:
-      - url: "https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage?chat_id=${TG_BOT_CHAT_ID}&text=High CPU usage detected"
+      - url: "http://telegram:8088/alert"
+

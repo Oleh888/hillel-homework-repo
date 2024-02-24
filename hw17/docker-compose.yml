@@ -26,13 +26,22 @@ services:
   alertmanager:
     image: prom/alertmanager
     container_name: alertmanager
-    environment:
-      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
-      - TG_BOT_CHAT_ID=${TG_BOT_CHAT_ID}
     volumes:
       - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
     ports:
       - 9093:9093
+
+  telegram-alert:
+    image: telegram-alert
+    container_name: telegram
+    environment:
+      - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+    build:
+      context: ./telegram
+      dockerfile: Dockerfile
+    ports:
+      - 8088:8088
 
   grafana:
     image: grafana/grafana
